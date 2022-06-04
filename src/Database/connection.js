@@ -1,8 +1,8 @@
-const { default: mongoose } = require("mongoose")
+const { default: mongoose } = require('mongoose')
 
 module.exports = class connect {
     /**
-     * @param {string} uri 
+     * @param {string} uri
      */
     constructor(uri) {
         /**
@@ -16,18 +16,17 @@ module.exports = class connect {
      */
 
     connect = async () => {
-        if (!this.URI || this.URI === "")
-      throw new Error('No MongoDB URI provided');
-    const db = mongoose.connection;
-    mongoose.connect(encodeURI(this.URI));
-    return await new Promise((resolve, reject) => {
-      db.on("error", (error) => {
-        reject(error);
-      });
+        if (!this.URI || this.URI === '') throw new Error('No MongoDB URI provided')
+        const db = mongoose.connection
+        mongoose.connect(encodeURI(this.URI))
+        return await new Promise((resolve, reject) => {
+            db.on('error', (error) => {
+                reject(error)
+            })
 
-      db.once("open", () => {
-        resolve(db);
-      });
-    });
-  };
+            db.once('open', () => {
+                resolve(db)
+            })
+        })
     }
+}

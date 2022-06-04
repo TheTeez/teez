@@ -8,6 +8,9 @@
     "whatsapp",
     "anime"
   ],
+  "scripts": {
+    "format": "prettier --write --config .prettierrc.json \"src/**/*.js\""
+  },
   "bugs": {
     "url": "https://github.com/LuckyYam/WhatsApp-bot/issues"
   },
