@@ -1,4 +1,21 @@
 {
+  "name": "whatsapp-bot",
+  "version": "0.0.1",
+  "description": "A WhatsApp bot written in JavaScript using Baileys",
+  "author": "Lucky Yambem",
+  "keywords": [
+    "bot",
+    "whatsapp",
+    "anime"
+  ],
+  "bugs": {
+    "url": "https://github.com/LuckyYam/WhatsApp-bot/issues"
+  },
+  "homepage": "https://github.com/LuckyYam/WhatsApp-bot",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LuckyYam/WhatsApp-bot.git"
+  },
   "dependencies": {
     "@adiwajshing/baileys": "^4.1.0",
     "@adiwajshing/keyed-db": "^0.2.4",
