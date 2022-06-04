@@ -62,9 +62,14 @@ module.exports = class Contact {
 
     /**
      * @type {Map<'contacts', contact[]>}
+     * @private
      */
 
     contacts = new Map()
+
+    /**
+     * @private
+     */
 
     DB = new Database()
 }
