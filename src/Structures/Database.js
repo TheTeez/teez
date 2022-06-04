@@ -1,27 +1,21 @@
 const { userSchema, groupSchema, contactSchema } = require('../Database')
 
 module.exports = class Database {
-
-    /**
-     * @typedef {{jid: string, experience: number, ban: boolean}} user
-     */
-
-    /**
-     * @typedef {{jid: string, events: boolean, nsfw: boolean, mods: boolean}} group
-     */
     constructor() {}
 
     /**
-     * @param {string} jid 
+     * @param {string} jid
      * @returns {Promise<user>}
      */
 
-    getUser = async (jid) => await this.user.findOne({ jid }) || await new this.user({
-        jid
-    }).save()
+    getUser = async (jid) =>
+        (await this.user.findOne({ jid })) ||
+        (await new this.user({
+            jid
+        }).save())
 
     /**
-     * @param {string} jid 
+     * @param {string} jid
      * @param {'ban' | 'unban'} update
      */
 
@@ -35,9 +29,25 @@ module.exports = class Database {
      * @returns {Promise<group>}
      */
 
-    getGroup = async (jid) => await this.group.findOne({ jid }) || await new this.group({
-        jid
-    }).save()
+    getGroup = async (jid) =>
+        (await this.group.findOne({ jid })) ||
+        (await new this.group({
+            jid
+        }).save())
+
+    /**
+     * @returns {Promise<contact[]>}
+     */
+
+    getContacts = async () => {
+        let result = await this.contact.findOne({ title: 'contacts' })
+        if (!result)
+            result = await new this.contact({
+                title: 'contacts',
+                data: []
+            }).save()
+        return result.data
+    }
 
     user = userSchema
 
@@ -45,3 +55,15 @@ module.exports = class Database {
 
     contact = contactSchema
 }
+
+/**
+ * @typedef {{jid: string, experience: number, ban: boolean}} user
+ */
+
+/**
+ * @typedef {{jid: string, events: boolean, nsfw: boolean, mods: boolean}} group
+ */
+
+/**
+ * @typedef {{id: string, notify?: string, name?: string, verifiedName?: string, imgUrl?: string, status?: string}} contact
+ */

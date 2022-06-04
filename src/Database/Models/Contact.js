@@ -6,11 +6,15 @@ const schema = new Schema({
         unique: true,
         required: true
     },
-   
+
     data: [
         {
             id: String,
             notify: String,
+            name: String,
+            verifiedName: String,
+            status: String,
+            imgUrl: String
         }
     ]
 })
