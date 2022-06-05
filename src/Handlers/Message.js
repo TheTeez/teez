@@ -1,5 +1,6 @@
 const { join } = require('path')
 const { readdirSync } = require('fs-extra')
+const chalk = require('chalk')
 const Message = require('../Structures/Message')
 const Helper = require('../Structures/Helper')
 const Command = require('../Structures/Command')
@@ -38,8 +39,16 @@ module.exports = class MessageHandler {
             }
         }
         if (!args[0] || !args[0].startsWith(prefix))
-            return void console.log(`Message from ${M.sender.username} in ${title}`)
-        console.log(`Command ${args[0]}[${args.length - 1}] from ${M.sender.username} in ${title}`)
+            return void this.helper.log(
+                `${chalk.cyanBright('Message')} from ${chalk.yellowBright(M.sender.username)} in ${chalk.blueBright(
+                    title
+                )}`
+            )
+        this.helper.log(
+            `${chalk.cyanBright(`Command ${args[0]}[${args.length - 1}]`)} from ${chalk.yellowBright(
+                M.sender.username
+            )} in ${chalk.blueBright(title)}`
+        )
         const cmd = args[0].toLowerCase().slice(prefix.length)
         const command = this.commands.get(cmd) || this.aliases.get(cmd)
         if (!command) return void M.reply('No such command, Baka!')
@@ -50,7 +59,7 @@ module.exports = class MessageHandler {
         try {
             await command.execute(M, this.formatArgs(args))
         } catch (error) {
-            console.log(err.message)
+            this.helper.log(err.message, true)
         }
     }
 
@@ -59,7 +68,7 @@ module.exports = class MessageHandler {
      */
 
     loadCommands = () => {
-        console.log('Loading Commands...')
+        this.helper.log('Loading Commands...')
         const files = readdirSync(join(__dirname, '..', 'Commands')).filter((file) => !file.endsWith('___.js'))
         for (const file of files) {
             const Commands = readdirSync(join(__dirname, '..', 'Commands', file))
@@ -74,13 +83,15 @@ module.exports = class MessageHandler {
                 command.handler = this
                 this.commands.set(command.name, command)
                 if (command.config.aliases) command.config.aliases.forEach((alias) => this.aliases.set(alias, command))
-                console.log(`Loaded: ${command.name} from ${command.config.category}`)
+                this.helper.log(
+                    `Loaded: ${chalk.yellowBright(command.name)} from ${chalk.cyanBright(command.config.category)}`
+                )
             }
         }
-        return void console.log(
-            `Successfully loaded ${this.commands.size} ${this.commands.size > 1 ? 'commands' : 'command'} with ${
-                this.aliases.size
-            } ${this.aliases.size > 1 ? 'aliases' : 'alias'}`
+        return this.helper.log(
+            `Successfully loaded ${chalk.cyanBright(this.commands.size)} ${
+                this.commands.size > 1 ? 'commands' : 'command'
+            } with ${chalk.yellowBright(this.aliases.size)} ${this.aliases.size > 1 ? 'aliases' : 'alias'}`
         )
     }
 

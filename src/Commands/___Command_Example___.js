@@ -13,8 +13,8 @@ module.exports = class command extends Command {
     }
 
     /**
-     * @param {Message} M 
-     * @param {args} args 
+     * @param {Message} M
+     * @param {args} args
      * @returns {Promise<void>}
      */
 

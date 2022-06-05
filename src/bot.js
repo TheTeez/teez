@@ -16,9 +16,15 @@ const Helper = require('./Structures/Helper')
 const { connection } = require('./Database')
 
 const start = async () => {
+    const helper = new Helper({
+        prefix: process.env.PREFIX || ':',
+        name: process.env.NAME || 'Bot',
+        mods: (process.env.MODS || '').split(', ').map((jid) => `${jid}@s.whatsapp.net`)
+    })
+
     await new connection(process.env.MONGO_URI || '').connect()
 
-    console.log('Connected to the Database')
+    helper.log('Connected to the Database')
 
     const { state, saveState } = useSingleFileAuthState('./session.json')
 
@@ -27,12 +33,6 @@ const start = async () => {
         printQRInTerminal: true,
         auth: state,
         logger: P({ level: 'fatal' })
-    })
-
-    const helper = new Helper({
-        prefix: process.env.PREFIX || ':',
-        name: process.env.NAME || 'Bot',
-        mods: (process.env.MODS || '').split(', ').map((jid) => `${jid}@s.whatsapp.net`)
     })
 
     const messageHandler = new MessageHandler(client, helper)
@@ -59,8 +59,8 @@ const start = async () => {
             else if (statusCode === DisconnectReason.timedOut) start()
             else client.end('Disconnected')
         }
-        if (connection === 'connecting') console.log('Connecting to WhatsApp...')
-        if (connection === 'open') console.log('Connected to WhatsApp')
+        if (connection === 'connecting') helper.log('Connecting to WhatsApp...')
+        if (connection === 'open') helper.log('Connected to WhatsApp')
     })
 
     client.ev.on('creds.update', saveState)
