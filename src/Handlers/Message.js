@@ -60,7 +60,7 @@ module.exports = class MessageHandler {
 
     loadCommands = () => {
         console.log('Loading Commands...')
-        const files = readdirSync(join(__dirname, '..', 'Commands'))
+        const files = readdirSync(join(__dirname, '..', 'Commands')).filter((file) => !file.endsWith('___.js'))
         for (const file of files) {
             const Commands = readdirSync(join(__dirname, '..', 'Commands', file))
             for (const Command of Commands) {
