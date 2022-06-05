@@ -7,7 +7,8 @@ module.exports = class command extends Command {
             description: 'Says hi to the bot',
             category: 'general',
             usage: 'hi',
-            aliases: ['hello']
+            aliases: ['hello'],
+            exp: 15
         })
     }
 

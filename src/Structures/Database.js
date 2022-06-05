@@ -26,6 +26,17 @@ module.exports = class Database {
 
     /**
      * @param {string} jid
+     * @param {number} experience
+     */
+
+    setExp = async (jid, experience) => {
+        await this.getUser(jid)
+        experience = experience + Math.floor(Math.random() * 25)
+        await this.user.updateOne({ jid }, { $set: { experience } })
+    }
+
+    /**
+     * @param {string} jid
      * @returns {Promise<group>}
      */
 
