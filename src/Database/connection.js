@@ -16,9 +16,9 @@ module.exports = class connect {
      */
 
     connect = async () => {
-        if (!this.URI || this.URI === '') throw new Error('No MongoDB URI provided')
+        if (!this.uri || this.uri === '') throw new Error('No MongoDB URI provided')
         const db = mongoose.connection
-        mongoose.connect(encodeURI(this.URI))
+        mongoose.connect(encodeURI(this.uri))
         return await new Promise((resolve, reject) => {
             db.on('error', (error) => {
                 reject(error)

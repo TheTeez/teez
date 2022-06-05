@@ -1,3 +1,5 @@
+const { join } = require('path')
+const { readdirSync } = require('fs-extra')
 const Message = require('../Structures/Message')
 const Helper = require('../Structures/Helper')
 const Command = require('../Structures/Command')
@@ -37,7 +39,7 @@ module.exports = class MessageHandler {
         }
         if (!args[0] || !args[0].startsWith(prefix))
             return void console.log(`Message from ${M.sender.username} in ${title}`)
-        console.log(`Command ${args[0]}[${args.length} - 1] from ${M.sender.username} in ${title}`)
+        console.log(`Command ${args[0]}[${args.length - 1}] from ${M.sender.username} in ${title}`)
         const cmd = args[0].toLowerCase().slice(prefix.length)
         const command = this.commands.get(cmd) || this.aliases.get(cmd)
         if (!command) return void M.reply('No such command, Baka!')
@@ -46,6 +48,36 @@ module.exports = class MessageHandler {
         } catch (error) {
             console.log(err.message)
         }
+    }
+
+    /**
+     * @returns {void}
+     */
+
+    loadCommands = () => {
+        console.log('Loading Commands...')
+        const files = readdirSync(join(__dirname, '..', 'Commands'))
+        for (const file of files) {
+            const Commands = readdirSync(join(__dirname, '..', 'Commands', file))
+            for (const Command of Commands) {
+                /**
+                 * @constant
+                 * @type {Command}
+                 */
+                const command = new (require(`../Commands/${file}/${Command}`))()
+                command.client = this.client
+                command.helper = this.helper
+                command.handler = this
+                this.commands.set(command.name, command)
+                if (command.config.aliases) command.config.aliases.forEach((alias) => this.aliases.set(alias, command))
+                console.log(`Loaded: ${command.name} from ${command.config.category}`)
+            }
+        }
+        return void console.log(
+            `Successfully loaded ${this.commands.size} ${this.commands.size > 1 ? 'commands' : 'command'} with ${
+                this.aliases.size
+            } ${this.aliases.size > 1 ? 'aliases' : 'alias'}`
+        )
     }
 
     /**

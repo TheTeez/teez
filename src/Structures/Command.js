@@ -1,6 +1,7 @@
 const Baileys = require('@adiwajshing/baileys').default
 const Helper = require('./Helper')
 const Message = require('./Message')
+const MessageHandler = require('../Handlers/Message')
 
 module.exports = class Command {
     /**
@@ -25,6 +26,10 @@ module.exports = class Command {
          * @type {client}
          */
         this.client
+        /**
+         * @type {MessageHandler}
+         */
+        this.handler
     }
 
     /**

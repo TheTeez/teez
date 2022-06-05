@@ -4,7 +4,7 @@ const { Utils } = require('../lib')
 
 module.exports = class Helper {
     /**
-     * @param {{prefix: string, name: string}} config
+     * @param {{prefix: string, name: string, mods?: string[]}} config
      */
     constructor(config) {
         this.config = config

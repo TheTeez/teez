@@ -40,10 +40,10 @@ module.exports = class Database {
      */
 
     getContacts = async () => {
-        let result = await this.contact.findOne({ title: 'contacts' })
+        let result = await this.contact.findOne({ ID: 'contacts' })
         if (!result)
             result = await new this.contact({
-                title: 'contacts',
+                ID: 'contacts',
                 data: []
             }).save()
         return result.data
