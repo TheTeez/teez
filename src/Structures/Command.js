@@ -2,12 +2,11 @@ const Baileys = require('@adiwajshing/baileys').default
 const Helper = require('./Helper')
 
 module.exports = class Command {
-
     /**
      * @param {string} name
-     * @param {config} config 
+     * @param {config} config
      */
-    
+
     constructor(name, config) {
         /**
          * @type {string}
@@ -22,12 +21,16 @@ module.exports = class Command {
          */
         this.helper
         /**
-         * @type {ReturnType<typeof Baileys>}
+         * @type {client}
          */
         this.client
     }
 }
 
 /**
- * @typedef {{category: string, description: string, usage: string, aliases?: string[]}} config
+ * @typedef {{category: 'general', description: string, usage: string, aliases?: string[]}} config
+ */
+
+/**
+ * @typedef {ReturnType<typeof Baileys>} client
  */
