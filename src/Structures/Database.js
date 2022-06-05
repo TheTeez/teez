@@ -65,5 +65,5 @@ module.exports = class Database {
  */
 
 /**
- * @typedef {{id: string, notify?: string, name?: string, verifiedName?: string, imgUrl?: string, status?: string}} contact
+ * @typedef {import('@adiwajshing/baileys').Contact} contact
  */

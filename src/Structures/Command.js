@@ -1,5 +1,6 @@
 const Baileys = require('@adiwajshing/baileys').default
 const Helper = require('./Helper')
+const Message = require('./Message')
 
 module.exports = class Command {
     /**
@@ -25,6 +26,16 @@ module.exports = class Command {
          */
         this.client
     }
+
+    /**
+     * @param {Message} M
+     * @param {args} args
+     * @returns {Promise<void | never>}
+     */
+
+    execute = async (M, args) => {
+        throw new Error('Command method not implemented')
+    }
 }
 
 /**
@@ -33,4 +44,8 @@ module.exports = class Command {
 
 /**
  * @typedef {ReturnType<typeof Baileys>} client
+ */
+
+/**
+ * @typedef {import('../Handlers/Message').args} args
  */
