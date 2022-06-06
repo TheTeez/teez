@@ -32,7 +32,7 @@ const start = async () => {
 
     helper.log('Connected to the Database')
 
-    new Server(helper)
+    new Server(helper).listen(helper.config.PORT)
 
     const { state, saveState } = useSingleFileAuthState('./session.json')
 
