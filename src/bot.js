@@ -8,10 +8,10 @@ const {
 const P = require('pino')
 const { Boom } = require('@hapi/boom')
 const qr = require('qr-image')
+const mongoose = require('mongoose')
 const Message = require('./Structures/Message')
 const MessageHandler = require('./Handlers/Message')
 const Helper = require('./Structures/Helper')
-const { connection } = require('./Database')
 const Server = require('./Structures/Server')
 
 const start = async () => {
@@ -20,10 +20,16 @@ const start = async () => {
         name: process.env.NAME || 'Bot',
         mods: (process.env.MODS || '').split(', ').map((jid) => `${jid}@s.whatsapp.net`),
         session: process.env.SESSION || 'SESSION',
-        PORT: Number(process.env.PORT || 3000)
+        PORTS: (process.env.PORTS || '3000, 4000, 5000, 6000, 7000, 8000, 9000')
+            .split(', ')
+            .map((port) => parseInt(port))
     })
 
-    await new connection(process.env.MONGO_URI || '').connect()
+    if (!process.env.MONGO_URI || process.env.MONGO_URI === '') {
+        throw new Error('No Mongo URI provided')
+    }
+
+    mongoose.connect(process.env.MONGO_URI)
 
     helper.log('Connected to the Database')
 
