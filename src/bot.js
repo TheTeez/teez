@@ -57,7 +57,9 @@ const start = async () => {
 
     client.ev.on('connection.update', (update) => {
         if (update.qr) {
-            helper.log(`QR code generated. Scan it to continue | You can also authenicate in http://localhost:${helper.config.PORT}`)
+            helper.log(
+                `QR code generated. Scan it to continue | You can also authenicate in http://localhost:${helper.config.PORT}`
+            )
             helper.QR = qr.imageSync(update.qr)
         }
         const { connection, lastDisconnect } = update
