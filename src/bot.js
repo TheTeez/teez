@@ -26,7 +26,7 @@ const start = async () => {
     })
 
     if (!process.env.MONGO_URI || process.env.MONGO_URI === '') {
-        throw new Error('No Mongo URI provided')
+        throw new Error('No MongoDB URI provided')
     }
 
     mongoose.connect(process.env.MONGO_URI)
@@ -41,7 +41,8 @@ const start = async () => {
         version: (await fetchLatestBaileysVersion()).version,
         printQRInTerminal: true,
         auth: state,
-        logger: P({ level: 'fatal' })
+        logger: P({ level: 'fatal' }),
+        browser: ['WhatsApp-bot', 'fatal', '1.0.0']
     })
 
     const messageHandler = new MessageHandler(client, helper)
