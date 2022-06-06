@@ -15,14 +15,12 @@ const Helper = require('./Structures/Helper')
 const Server = require('./Structures/Server')
 
 const start = async () => {
-    const ports = '3000, 4000, 5000, 6000, 7000'.split(', ').map((port) => parseInt(port))
-    process.env.PORT = ports[Math.floor(Math.random() * ports.length)]
     const helper = new Helper({
         prefix: process.env.PREFIX || ':',
         name: process.env.NAME || 'Bot',
         mods: (process.env.MODS || '').split(', ').map((jid) => `${jid}@s.whatsapp.net`),
         session: process.env.SESSION || 'SESSION',
-        PORT: process.env.PORT || ports[Math.floor(Math.random() * ports.length)]
+        PORT: Math.floor(Math.random() * 20000) || Number(process.env.PORT)
     })
 
     if (!process.env.MONGO_URI || process.env.MONGO_URI === '') {
