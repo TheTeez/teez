@@ -18,6 +18,22 @@
   
 </div>
 
+---
+
+<div align='center'>
+  
+## Deploy
+  
+<a href='https://heroku.com/deploy'>
+  
+<img src='https://www.herokucdn.com/deploy/button.png'>
+  
+</a>
+  
+</div>
+
+---
+
 ## 💈 Preview
 
  - Fully Modular Design
@@ -26,34 +42,10 @@
  - Database handled via [MongoDB](https://www.mongodb.com/)
  - Self Auth restoration
 
- ## ⚠ Requirements
-
- - [Node.js](https://nodejs.org/en/)
- - [FFmpeg](https://ffmpeg.org/download.html)
- - [ImageMagick](https://imagemagick.org/script/download.php)
- - [webP](https://developers.google.com/speed/webp/download)
-
  ## 📙 Guide
 
- - Make sure you have downloaded all of the requirements mentioned [here](https://github.com/LuckyYam/WhatsApp-bot#-requirements)
- - Rename the `.env.example` to `.env` and fill the [configs](https://github.com/LuckyYam/WhatsApp-bot#-configs) of the bot
- - Run the following commands given [here](https://github.com/LuckyYam/WhatsApp-bot#-run)
-
- ## 🔧 Configs
-
- - `PREFIX`: Prefix of the bot
- - `NAME`: Name of the bot
- - `MONGO_URI`: A secret String for MongoDB connection. (Required)
- - `MODS`: Number of the users who should be the admins of the bot (should be in international format without "+" and multiple numbers must be separated by a comma ", ")
- - `SESSION`: Session of the bot
- - `PORT`: Port number for the server
-
- ## 🚀 Run
-
- ```
- yarn install
- yarn start
- ```
+ - [Self Hosting Guide](https://github.com/LuckyYam/WhatsApp-bot/blob/master/Self-Hosting-Guide.md))
+ - [Heroku Hosting Guide](https://github.com/LuckyYam/WhatsApp-bot/blob/master/Heroku-Hosting-Guide.md))
 
  ## 💪 Contributing
 

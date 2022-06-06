@@ -38,6 +38,10 @@ module.exports = class Authenication {
             await this.DB.session.updateOne({ sessionId: this.sessionId }, { $set: { session, authenicated: true } })
         }
 
+        const clearState = async () => {
+            await this.DB.session.deleteOne({ sessionId: this.sessionId })
+        }
+
         return {
             state: {
                 creds,
@@ -67,7 +71,8 @@ module.exports = class Authenication {
                     }
                 }
             },
-            saveState
+            saveState,
+            clearState
         }
     }
 

@@ -31,7 +31,7 @@ const start = async () => {
 
     helper.log('Connected to the Database')
 
-    const { saveState, state } = await useAuthFromDatabase()
+    const { saveState, state, clearState } = await useAuthFromDatabase()
 
     const client = Baileys({
         version: (await fetchLatestBaileysVersion()).version,
@@ -61,8 +61,14 @@ const start = async () => {
         }
         const { connection, lastDisconnect } = update
         if (connection === 'close') {
-            const { statusCode } = new Boom(lastDisconnect?.error)?.output
-            if (statusCode === DisconnectReason.badSession) client.logout()
+            const { output, data } = new Boom(lastDisconnect?.error)
+            const { statusCode } = output
+            if (
+                statusCode === DisconnectReason.loggedOut &&
+                data?.content?.find((item) => item.attrs?.type === 'device_removed') !== undefined
+            )
+                clearState()
+            else if (statusCode === DisconnectReason.badSession) client.logout()
             else if (statusCode === DisconnectReason.connectionClosed) start()
             else if (statusCode === DisconnectReason.connectionLost) start()
             else if (statusCode === DisconnectReason.connectionReplaced) client.logout()
