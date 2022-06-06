@@ -16,4 +16,4 @@ const schema = new Schema({
     session: String
 })
 
-module.exports = model('sessions', schema)
+module.exports = model('sessionschemas', schema)
