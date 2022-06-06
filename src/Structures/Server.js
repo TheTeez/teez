@@ -39,11 +39,9 @@ module.exports = class Server {
         })
 
         this.app.all('*', (req, res) => res.sendStatus(404))
-
-        this.app.listen(this.helper.config.PORT, () =>
-            this.helper.log(`Server started on PORT : ${this.helper.config.PORT}`)
-        )
     }
+
+    listen = (port) => this.app.listen(port, () => helper.log(`Server started on PORT : ${port}`))
 
     app = express()
 
