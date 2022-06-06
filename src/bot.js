@@ -16,6 +16,7 @@ const Server = require('./Structures/Server')
 
 const start = async () => {
     const ports = '3000, 4000, 5000, 6000, 7000'.split(', ').map((port) => parseInt(port))
+    process.env.PORT = ports[Math.floor(Math.random() * ports.length)]
     const helper = new Helper({
         prefix: process.env.PREFIX || ':',
         name: process.env.NAME || 'Bot',
