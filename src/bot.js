@@ -1,7 +1,4 @@
-const { config } = require('dotenv')
-
-config()
-
+require('dotenv').config()
 const {
     default: Baileys,
     DisconnectReason,
@@ -10,21 +7,27 @@ const {
 } = require('@adiwajshing/baileys')
 const P = require('pino')
 const { Boom } = require('@hapi/boom')
+const qr = require('qr-image')
 const Message = require('./Structures/Message')
 const MessageHandler = require('./Handlers/Message')
 const Helper = require('./Structures/Helper')
 const { connection } = require('./Database')
+const Server = require('./Structures/Server')
 
 const start = async () => {
     const helper = new Helper({
         prefix: process.env.PREFIX || ':',
         name: process.env.NAME || 'Bot',
-        mods: (process.env.MODS || '').split(', ').map((jid) => `${jid}@s.whatsapp.net`)
+        mods: (process.env.MODS || '').split(', ').map((jid) => `${jid}@s.whatsapp.net`),
+        session: process.env.SESSION || 'SESSION',
+        PORT: Number(process.env.PORT || 3000)
     })
 
     await new connection(process.env.MONGO_URI || '').connect()
 
     helper.log('Connected to the Database')
+
+    new Server(helper)
 
     const { state, saveState } = useSingleFileAuthState('./session.json')
 
@@ -47,6 +50,12 @@ const start = async () => {
     client.ev.on('contacts.update', async (contacts) => await helper.contact.saveContacts(contacts))
 
     client.ev.on('connection.update', (update) => {
+        if (update.qr) {
+            helper.log(
+                `QR code generated. Scan it to continue | You can also authenicate at http://localhost:${helper.config.PORT}`
+            )
+            helper.QR = qr.imageSync(update.qr)
+        }
         const { connection, lastDisconnect } = update
         if (connection === 'close') {
             const { statusCode } = new Boom(lastDisconnect?.error)?.output

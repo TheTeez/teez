@@ -44,6 +44,8 @@
  - `NAME`: Name of the bot
  - `MONGO_URI`: A secret String for MongoDB connection. (Required)
  - `MODS`: Number of the users who should be the admins of the bot (should be in international format without "+" and multiple numbers must be separated by a comma ", ")
+ - `SESSION`: Session of the bot
+ - `PORT`: Port number for the server
 
  ## 🚀 Run
 
