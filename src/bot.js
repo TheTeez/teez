@@ -57,9 +57,7 @@ const start = async () => {
 
     client.ev.on('connection.update', (update) => {
         if (update.qr) {
-            helper.log(
-                `QR code generated. Scan it to continue`
-            )
+            helper.log(`QR code generated. Scan it to continue`)
             helper.QR = qr.imageSync(update.qr)
         }
         const { connection, lastDisconnect } = update
