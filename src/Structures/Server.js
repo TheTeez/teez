@@ -1,8 +1,10 @@
 const express = require('express')
+const { exec } = require('child_process')
 const Helper = require('./Helper')
 
 module.exports = class Server {
     /**
+     * @param {number} PORT
      * @param {Helper} helper
      */
     constructor(helper) {
@@ -40,9 +42,9 @@ module.exports = class Server {
 
         this.app.all('*', (req, res) => res.sendStatus(404))
 
-        const PORT = this.helper.config.PORTS[Math.floor(Math.random() * this.helper.config.PORTS.length)]
-
-        this.app.listen(PORT, () => this.helper.log(`Server started on PORT : ${PORT}`))
+        this.app.listen(this.helper.config.PORT, () =>
+            this.helper.log(`Server started on PORT : ${this.helper.config.PORT}`)
+        )
     }
 
     app = express()
