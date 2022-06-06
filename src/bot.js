@@ -14,15 +14,17 @@ const MessageHandler = require('./Handlers/Message')
 const Helper = require('./Structures/Helper')
 const Server = require('./Structures/Server')
 
-const start = async () => {
-    const helper = new Helper({
-        prefix: process.env.PREFIX || ':',
-        name: process.env.NAME || 'Bot',
-        mods: (process.env.MODS || '').split(', ').map((jid) => `${jid}@s.whatsapp.net`),
-        session: process.env.SESSION || 'SESSION',
-        PORT: Number(process.env.PORT || 3000)
-    })
+const helper = new Helper({
+    prefix: process.env.PREFIX || ':',
+    name: process.env.NAME || 'Bot',
+    mods: (process.env.MODS || '').split(', ').map((jid) => `${jid}@s.whatsapp.net`),
+    session: process.env.SESSION || 'SESSION',
+    PORT: Number(process.env.PORT || 3000)
+})
 
+new Server(helper).listen(helper.config.PORT)
+
+const start = async () => {
     if (!process.env.MONGO_URI || process.env.MONGO_URI === '') {
         throw new Error('No MongoDB URI provided')
     }
@@ -30,8 +32,6 @@ const start = async () => {
     mongoose.connect(process.env.MONGO_URI)
 
     helper.log('Connected to the Database')
-
-    new Server(helper).listen(helper.config.PORT)
 
     const { state, saveState } = useSingleFileAuthState('./session.json')
 
