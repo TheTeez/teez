@@ -20,7 +20,7 @@ const start = async () => {
         name: process.env.NAME || 'Bot',
         mods: (process.env.MODS || '').split(', ').map((jid) => `${jid}@s.whatsapp.net`),
         session: process.env.SESSION || 'SESSION',
-        PORT: Math.floor(Math.random() * 20000) || Number(process.env.PORT)
+        PORT: Number(process.env.PORT || 3000)
     })
 
     if (!process.env.MONGO_URI || process.env.MONGO_URI === '') {
