@@ -1,4 +1,4 @@
-const { userSchema, groupSchema, contactSchema } = require('../Database')
+const { userSchema, groupSchema, contactSchema, sessionSchema } = require('../Database')
 
 module.exports = class Database {
     constructor() {}
@@ -60,11 +60,20 @@ module.exports = class Database {
         return result.data
     }
 
+    /**
+     * @param {string} sessionId
+     * @returns {Promise<{sessionId: string, authenicated: boolean, session: string}>}
+     */
+
+    getSession = async (sessionId) => await this.session.findOne({ sessionId })
+
     user = userSchema
 
     group = groupSchema
 
     contact = contactSchema
+
+    session = sessionSchema
 }
 
 /**

@@ -1,10 +1,5 @@
 require('dotenv').config()
-const {
-    default: Baileys,
-    DisconnectReason,
-    useSingleFileAuthState,
-    fetchLatestBaileysVersion
-} = require('@adiwajshing/baileys')
+const { default: Baileys, DisconnectReason, fetchLatestBaileysVersion } = require('@adiwajshing/baileys')
 const P = require('pino')
 const { Boom } = require('@hapi/boom')
 const qr = require('qr-image')
@@ -13,6 +8,7 @@ const Message = require('./Structures/Message')
 const MessageHandler = require('./Handlers/Message')
 const Helper = require('./Structures/Helper')
 const Server = require('./Structures/Server')
+const Auth = require('./Structures/Auth')
 
 const helper = new Helper({
     prefix: process.env.PREFIX || ':',
@@ -21,6 +17,8 @@ const helper = new Helper({
     session: process.env.SESSION || 'SESSION',
     PORT: Number(process.env.PORT || 3000)
 })
+
+const { useAuthFromDatabase } = new Auth(helper.config.session)
 
 new Server(helper).listen(helper.config.PORT)
 
@@ -33,7 +31,7 @@ const start = async () => {
 
     helper.log('Connected to the Database')
 
-    const { state, saveState } = useSingleFileAuthState('./session.json')
+    const { saveState, state } = await useAuthFromDatabase()
 
     const client = Baileys({
         version: (await fetchLatestBaileysVersion()).version,
