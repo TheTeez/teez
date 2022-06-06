@@ -14,14 +14,15 @@ module.exports = class Authenication {
         let creds
         let keys = {}
         const storedCreds = await this.DB.getSession(this.sessionId)
-        if (storedCreds !== null) {
+        if (storedCreds !== null && storedCreds.session) {
             const parsedCreds = JSON.parse(storedCreds.session, BufferJSON.reviver)
             creds = parsedCreds.creds
             keys = parsedCreds.keys
         } else {
-            await new this.DB.session({
-                sessionId: this.sessionId
-            }).save()
+            if (storedCreds === null)
+                await new this.DB.session({
+                    sessionId: this.sessionId
+                }).save()
             creds = initAuthCreds()
         }
 
@@ -34,7 +35,7 @@ module.exports = class Authenication {
                 BufferJSON.replacer,
                 2
             )
-            await this.DB.session.updateOne({ sessionId: this.sessionId }, { $set: { session } })
+            await this.DB.session.updateOne({ sessionId: this.sessionId }, { $set: { session, authenicated: true } })
         }
 
         return {

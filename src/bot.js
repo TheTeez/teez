@@ -20,7 +20,7 @@ const helper = new Helper({
 
 const { useAuthFromDatabase } = new Auth(helper.config.session)
 
-new Server(helper).listen(helper.config.PORT)
+new Server(helper)
 
 const start = async () => {
     if (!process.env.MONGO_URI || process.env.MONGO_URI === '') {
